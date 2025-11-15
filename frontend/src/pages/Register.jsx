@@ -21,8 +21,6 @@ const Register = () => {
     orgName: '',
     description: '',
     address: '',
-    lat: '',
-    lng: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -44,15 +42,7 @@ const Register = () => {
     if (tab === 'user') {
       await dispatch(registerUserAccount(userForm));
     } else {
-      await dispatch(
-        registerOrgAccount({
-          ...orgForm,
-          location: {
-            type: 'Point',
-            coordinates: [Number(orgForm.lng), Number(orgForm.lat)],
-          },
-        })
-      );
+      await dispatch(registerOrgAccount(orgForm));
     }
   };
 
@@ -101,36 +91,6 @@ const Register = () => {
           rows={3}
           className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-colors duration-200"
         />
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">
-            Latitude
-          </label>
-          <input
-            name="lat"
-            value={orgForm.lat}
-            onChange={handleOrgChange}
-            type="number"
-            step="0.0001"
-            className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-colors duration-200"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">
-            Longitude
-          </label>
-          <input
-            name="lng"
-            value={orgForm.lng}
-            onChange={handleOrgChange}
-            type="number"
-            step="0.0001"
-            className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-colors duration-200"
-            required
-          />
-        </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">

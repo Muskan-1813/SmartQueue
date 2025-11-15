@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import NowServing from '../components/NowServing';
 import TokenList from '../components/TokenList';
-import useSocket from '../hooks/useSocket';
 import {
   fetchQueueAnalyticsThunk,
   fetchQueueById,
   fetchQueueFeedbackThunk,
   fetchQueueTokens,
   joinQueueThunk,
-  upsertToken,
 } from '../store/slices/queueSlice';
 
 const QueueDetailPage = () => {
@@ -30,17 +28,6 @@ const QueueDetailPage = () => {
       dispatch(fetchQueueFeedbackThunk(queueId));
     }
   }, [dispatch, queueId]);
-
-  const handlers = useMemo(
-    () => ({
-      'token:joinedQueue': (token) => dispatch(upsertToken(token)),
-      'token:nowServing': (token) => dispatch(upsertToken(token)),
-      'token:completed': (token) => dispatch(upsertToken(token)),
-    }),
-    [dispatch]
-  );
-
-  useSocket(queueId, handlers);
 
   const handleJoinQueue = async () => {
     setJoining(true);

@@ -1,15 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ManualTokenForm from '../components/ManualTokenForm';
 import NowServing from '../components/NowServing';
 import TokenList from '../components/TokenList';
-import useSocket from '../hooks/useSocket';
 import { getOrgQueues } from '../store/slices/orgSlice';
 import {
   fetchQueueById,
   fetchQueueTokens,
   markTokenDoneThunk,
-  upsertToken,
 } from '../store/slices/queueSlice';
 
 const StaffDashboard = () => {
@@ -37,17 +35,6 @@ const StaffDashboard = () => {
       dispatch(fetchQueueTokens(queueId));
     }
   }, [dispatch, queueId]);
-
-  const handlers = useMemo(
-    () => ({
-      'token:joinedQueue': (token) => dispatch(upsertToken(token)),
-      'token:nowServing': (token) => dispatch(upsertToken(token)),
-      'token:completed': (token) => dispatch(upsertToken(token)),
-    }),
-    [dispatch]
-  );
-
-  useSocket(queueId, handlers);
 
   const handleMarkDone = async (token) => {
     await dispatch(markTokenDoneThunk(token._id));

@@ -5,22 +5,18 @@ import {
   registerUser,
 } from '../../services/authService';
 
-const tokenKey = 'smartqueue_token';
 const userKey = 'smartqueue_user';
 
-const persistSession = (token, user) => {
-  if (token) localStorage.setItem(tokenKey, token);
+const persistSession = (user) => {
   if (user) localStorage.setItem(userKey, JSON.stringify(user));
 };
 
 const clearSession = () => {
-  localStorage.removeItem(tokenKey);
   localStorage.removeItem(userKey);
 };
 
 const initialState = {
   user: JSON.parse(localStorage.getItem(userKey) || 'null'),
-  token: localStorage.getItem(tokenKey),
   status: 'idle',
   error: null,
 };
@@ -52,22 +48,19 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.user = null;
-      state.token = null;
       clearSession();
     },
     setCredentials(state, action) {
       state.user = action.payload.user;
-      state.token = action.payload.token;
-      persistSession(state.token, state.user);
+      persistSession(state.user);
     },
   },
   extraReducers: (builder) => {
     const fulfilled = (state, action) => {
       state.status = 'succeeded';
       state.user = action.payload.user;
-      state.token = action.payload.token;
       state.error = null;
-      persistSession(state.token, state.user);
+      persistSession(state.user);
     };
 
     const pending = (state) => {
@@ -77,7 +70,31 @@ const authSlice = createSlice({
 
     const rejected = (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      // Extract meaningful error message from axios error
+      let errorMessage = 'An error occurred';
+      
+      if (action.error.message) {
+        if (action.error.message.includes('Network Error') || action.error.code === 'ERR_NETWORK' || action.error.code === 'ECONNREFUSED') {
+          errorMessage = 'Network error: Could not connect to server. Please check if the backend is running.';
+        } else if (action.error.response?.data?.message) {
+          errorMessage = action.error.response.data.message;
+        } else if (action.error.response?.status === 400) {
+          errorMessage = 'Invalid credentials';
+        } else if (action.error.response?.status === 401) {
+          errorMessage = 'Unauthorized';
+        } else if (action.error.response?.status >= 500) {
+          errorMessage = 'Server error. Please try again later.';
+        } else {
+          errorMessage = action.error.message;
+        }
+      }
+      
+      state.error = errorMessage;
+      console.error('[AUTH] Login error:', {
+        message: errorMessage,
+        originalError: action.error,
+        response: action.error.response?.data,
+      });
     };
 
     builder
