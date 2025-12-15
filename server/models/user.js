@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-import organisation from './organisation.js'
 
 const userSchema = new Schema({
     userName:{
@@ -19,8 +18,12 @@ const userSchema = new Schema({
     },
     registeredOrgs:[{
         type:Schema.Types.ObjectId,
-        ref:"Organisations"
-    }]
+        ref:"Organisation"
+    }],
+    queue:{
+        type:Schema.Types.ObjectId,
+        ref:"Service"
+    }
 })
 
 
