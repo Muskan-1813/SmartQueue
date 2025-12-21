@@ -1,19 +1,41 @@
-import React from "react";
-import Queue from "./components/Queue";
+import React, { useState } from "react";
+import { Mycontext } from "./components/Mycontext.jsx";
 import Service from "./components/Service.jsx";
+import LandingPage from "./components/LandingPage.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
+import { Navbar } from "./components/Navbar.jsx";
+import { Footer } from "./components/Footer.jsx";
+import { Queue } from "./components/Queue.jsx";
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("smartqueue-theme");
+      return (
+        saved ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light")
+      );
+    }
+    return "light";
+  });
+  const values = {theme, setTheme};
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/service" element={<Service />} />
-        </Routes>
-        <div className="bg-black h-screen flex flex-col items-center justify-center">
-          <Queue />
-        </div>
-      </BrowserRouter>
+      <Mycontext.Provider value={values}>
+        <BrowserRouter>
+        <Navbar />
+          <Routes>
+            
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/service" element={<Service />} />
+            <Route path="/queue/:queueId" element={<Queue />}/>
+          </Routes>
+          
+          <Footer />
+        </BrowserRouter>
+      </Mycontext.Provider>
     </>
   );
 }
