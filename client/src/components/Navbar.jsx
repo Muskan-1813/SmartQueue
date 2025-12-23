@@ -42,23 +42,7 @@ export const Navbar = () => {
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-10 text-sm font-medium">
-          <a
-            href="#features"
-            className={`hover:text-[#2563eb] dark:hover:text-[#3b82f6] transition-colors ${
-              theme === "dark" ? "text-white" : "text-black"
-            } `}
-          >
-            Why SmartQueue
-          </a>
-          <a
-            href="#how-it-works"
-            className={`hover:text-[#2563eb] dark:hover:text-[#3b82f6] transition-colors ${
-              theme === "dark" ? "text-white" : "text-black"
-            } `}
-          >
-            How it works
-          </a>
+        <div className="hidden md:flex items-center gap-10 text-sm font-medium">        
           <div className= {` ${theme ==='dark'?'bg-[#1f2937]':'bg-slate-200'} w-px h-6 `}></div>
           <button
             onClick={toggleTheme}

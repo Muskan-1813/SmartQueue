@@ -199,7 +199,7 @@ const LandingPage = () => {
         </div>
 
         <div className="relative">
-          <div className="hidden lg:block absolute top-12 left-0 w-full h-px bg-linear-to-r from-transparent via-slate-200 dark:via-[#1f2937] to-transparent -z-10"></div>
+          <div className={`hidden lg:block absolute top-12 left-0 w-full h-px  ${theme==='dark'?'dark:via-[#1f2937]':'bg-linear-to-r from-transparent via-slate-200'} to-transparent -z-10`}></div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12">
             {[
