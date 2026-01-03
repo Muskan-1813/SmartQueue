@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router";
-import { Users, Link2 } from "lucide-react";
+import { useParams,useNavigate } from "react-router";
+import { Users, Link2, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../../api.js";
 import { QueueSkeleton } from "./QueueSkeleton.jsx";
@@ -8,6 +8,7 @@ import { QueueList } from "./QueueList.jsx";
 import { EmptyQueueState } from "./EmptyQueueState.jsx";
 import { Mycontext } from '../Mycontext.jsx'
 export const Queue = () => {
+  const navigate = useNavigate();
   const {theme} = useContext(Mycontext);
   motion;
   const { queueId } = useParams();
@@ -29,8 +30,13 @@ export const Queue = () => {
   }
 
   return (
-    <div className={` ${theme==='dark'?'bg-[#0a0c18]':'bg-amber-50'} pt-32 pb-24 w-screen p-28`}>
-      
+    <div className={` ${theme==='dark'?'bg-[#0a0c18]':'bg-amber-50'} pt-32 pb-24 w-100vw h-screen p-28`}>
+      <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 mb-5 text-sm font-semibold text-white opacity-70 hover:opacity-100 transition"
+        >
+          <ArrowLeft size={16} /> Back
+        </button>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

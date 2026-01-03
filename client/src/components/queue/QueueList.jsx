@@ -1,9 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Mycontext } from "../Mycontext";
 import { useContext } from "react";
+import { UserPlus } from "lucide-react";
+import { useParams } from "react-router";
+import api from "../../api.js";
 export const QueueList = ({ queue }) => {
   motion;
-  const {theme} = useContext(Mycontext);
+  const { theme } = useContext(Mycontext);
+  let { queueId } = useParams();
+  const joinQueue = () => {
+    const repsonse = api.post(`/queue/${queueId}/join`);
+    console.log(repsonse);
+  };
   return (
     <>
       <div className="space-y-4 h-screen">
@@ -21,8 +29,18 @@ export const QueueList = ({ queue }) => {
                 : "bg-white dark:bg-[#111827] border-slate-200 dark:border-[#1f2937]"
             }`}
             >
-              <span className=  {` font-bold text-lg w-8 ${theme==='dark'?'text-amber-50':'text-slate-950'}`}>#{entry.position}</span>
-              <span className={`font-medium ${theme==='dark'?'text-amber-50':'text-slate-950'} `}>
+              <span
+                className={` font-bold text-lg w-8 ${
+                  theme === "dark" ? "text-amber-50" : "text-slate-950"
+                }`}
+              >
+                #{entry.position}
+              </span>
+              <span
+                className={`font-medium ${
+                  theme === "dark" ? "text-amber-50" : "text-slate-950"
+                } `}
+              >
                 {entry.userName || "Anonymous"}
               </span>
               {idx === 0 && (
@@ -32,6 +50,17 @@ export const QueueList = ({ queue }) => {
               )}
             </motion.div>
           ))}
+          <button
+            className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20
+                ${
+                  theme === "dark"
+                    ? "border-[#111827]  text-amber-50 bg-[#1b2e58] "
+                    : "border-slate-900/20 bg-blue-500/15 hover:bg-blue-500/30 shadow-sm"
+                }`}
+            onClick={joinQueue}
+          >
+            Join <UserPlus size={20} />
+          </button>
         </AnimatePresence>
       </div>
     </>

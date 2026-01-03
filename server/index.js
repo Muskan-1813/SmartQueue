@@ -1,6 +1,7 @@
 import express from "express";
 import cors from 'cors';
 import queueRoutes from './routes/queue.js'
+import authRoutes from './routes/auth.js'
 import mongoose from "mongoose";
 const app = express();
 const port = 8080;
@@ -23,4 +24,5 @@ app.use(cors({
 app.get("/api", (req, res) => {
   res.status(201).json("landing page");
 });
+app.use("/api",authRoutes);
 app.use("/api",queueRoutes);

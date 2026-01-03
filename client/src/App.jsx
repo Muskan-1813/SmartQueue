@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { Navbar } from "./components/Navbar.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { Queue } from "./components/queue/Queue.jsx";
+import Hub from "./components/hub/hub.jsx";
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -27,7 +28,7 @@ function App() {
         <BrowserRouter>
         <Navbar />
           <Routes>
-            
+            <Route path="/hub" element={<Hub />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/service" element={<Service />} />
             <Route path="/queue/:queueId" element={<Queue />}/>
