@@ -6,9 +6,9 @@ const ticketSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    serviceId: {
+    queueId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Service",
     },
     position: {
       type: Number,

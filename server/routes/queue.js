@@ -3,15 +3,15 @@ const router = express.Router();
 import asyncHandler from "../middlewares/asyncHandler.js";
 import auth from '../middlewares/auth.js'
 import {
-  createService,
   showTickets,
   joinQueue,
   hub,
+  createQueue,
 } from "../controllers/queue.controller.js";
 
-router.get("/hub", auth,asyncHandler(hub));
+router.get("/hub",asyncHandler(hub));
 
-router.post("/queue", asyncHandler(createService));
+router.post("/queue",asyncHandler(createQueue));
 
 router.get("/queue/:queueId", asyncHandler(showTickets));
 
