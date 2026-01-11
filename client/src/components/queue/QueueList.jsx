@@ -8,9 +8,9 @@ export const QueueList = ({ queue }) => {
   motion;
   const { theme } = useContext(Mycontext);
   let { queueId } = useParams();
-  const joinQueue = () => {
-    const repsonse = api.post(`/queue/${queueId}/join`);
-    console.log(repsonse);
+  const joinQueue = async () => {
+    const repsonse = await api.post(`/queue/${queueId}/join`,{"userId":"696324d719e03868c7247767"});
+    console.log(repsonse.data);
   };
   return (
     <>

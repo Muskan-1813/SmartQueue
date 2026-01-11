@@ -24,8 +24,8 @@ const LandingPage = () => {
   const {theme} = useContext(Mycontext);
 
   const  navigate = useNavigate();
-  const loadService = () =>{
-    navigate("/service");
+  const createQueue = () =>{
+    navigate("/queue");
   }
   const loadHub = () =>{
     navigate("/hub");
@@ -93,7 +93,7 @@ const LandingPage = () => {
               className="flex flex-col sm:flex-row gap-5"
             >
               <button 
-              onClick={loadService}
+              onClick={createQueue}
               className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20">
                 Create a Queue <PlusCircle size={20} className="group-hover:rotate-90 transition-transform duration-300" />
               </button>

@@ -44,12 +44,12 @@ export const Queue = () => {
         className={` ${theme==='dark'?'bg-[#0a0c18]':'bg-amber-50'} mb-12 `}
       >
         <h1 className={`${theme==='dark'?'text-amber-50':'text-shadow-slate-950'} text-4xl transition-all duration-300 font-bold tracking-tight `}>
-          service.name
+          {queue.name}
         </h1>
         <div className="mt-3 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            Active
+            {queue.isActive}
           </span>
           <span className="flex items-center gap-2">
             <Users size={14} /> {queue.length} in queue

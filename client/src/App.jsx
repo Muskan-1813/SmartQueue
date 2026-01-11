@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Mycontext } from "./components/Mycontext.jsx";
-import Service from "./components/Service.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Navbar } from "./components/Navbar.jsx";
@@ -30,7 +29,7 @@ function App() {
           <Routes>
             <Route path="/hub" element={<Hub />} />
             <Route path="/" element={<LandingPage />} />
-            <Route path="/service" element={<Service />} />
+            <Route path="/queue" element={<Queue />} />
             <Route path="/queue/:queueId" element={<Queue />}/>
           </Routes>
           
