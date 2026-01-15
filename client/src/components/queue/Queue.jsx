@@ -1,25 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams,useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { Users, Link2, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import api from "../../api.js";
+import api from "../../api/api.js";
 import { QueueSkeleton } from "./QueueSkeleton.jsx";
 import { QueueList } from "./QueueList.jsx";
 import { EmptyQueueState } from "./EmptyQueueState.jsx";
-import { Mycontext } from '../Mycontext.jsx'
+import { Mycontext } from "../Mycontext.jsx";
 export const Queue = () => {
   const navigate = useNavigate();
-  const {theme} = useContext(Mycontext);
+  const { theme, queue, setQueue } = useContext(Mycontext);
   motion;
   const { queueId } = useParams();
-  const [queue, setQueue] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQueue = async () => {
       const res = await api.get(`/queue/${queueId}`);
       setQueue(res.data);
-      console.log("res:",res.data);
+      console.log("res:", res.data);
       setLoading(false);
     };
     fetchQueue();
@@ -30,20 +29,30 @@ export const Queue = () => {
   }
 
   return (
-    <div className={` ${theme==='dark'?'bg-[#0a0c18]':'bg-amber-50'} pt-32 pb-24 w-100vw h-screen p-28`}>
+    <div
+      className={` ${
+        theme === "dark" ? "bg-[#0a0c18]" : "bg-amber-50"
+      } pt-32 pb-24 w-100vw h-screen p-28`}
+    >
       <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 mb-5 text-sm font-semibold text-white opacity-70 hover:opacity-100 transition"
-        >
-          <ArrowLeft size={16} /> Back
-        </button>
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 mb-5 text-sm font-semibold text-white opacity-70 hover:opacity-100 transition"
+      >
+        <ArrowLeft size={16} /> Back
+      </button>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={` ${theme==='dark'?'bg-[#0a0c18]':'bg-amber-50'} mb-12 `}
+        className={` ${
+          theme === "dark" ? "bg-[#0a0c18]" : "bg-amber-50"
+        } mb-12 `}
       >
-        <h1 className={`${theme==='dark'?'text-amber-50':'text-shadow-slate-950'} text-4xl transition-all duration-300 font-bold tracking-tight `}>
+        <h1
+          className={`${
+            theme === "dark" ? "text-amber-50" : "text-shadow-slate-950"
+          } text-4xl transition-all duration-300 font-bold tracking-tight `}
+        >
           {queue.name}
         </h1>
         <div className="mt-3 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
@@ -61,7 +70,7 @@ export const Queue = () => {
       {queue.length === 0 ? (
         <EmptyQueueState serviceId={queueId} />
       ) : (
-        <QueueList queue={queue} />
+        <QueueList />
       )}
     </div>
   );

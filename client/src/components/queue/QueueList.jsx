@@ -3,14 +3,15 @@ import { Mycontext } from "../Mycontext";
 import { useContext } from "react";
 import { UserPlus } from "lucide-react";
 import { useParams } from "react-router";
-import api from "../../api.js";
-export const QueueList = ({ queue }) => {
+import api from "../../api/api.js";
+export const QueueList = () => {
   motion;
-  const { theme } = useContext(Mycontext);
+  const { theme, queue, setQueue } = useContext(Mycontext);
   let { queueId } = useParams();
   const joinQueue = async () => {
-    const repsonse = await api.post(`/queue/${queueId}/join`,{"userId":"696324d719e03868c7247767"});
+    const repsonse = await api.post(`/queue/${queueId}/join`);
     console.log(repsonse.data);
+    setQueue((prev)=>[...prev,repsonse.data])
   };
   return (
     <>

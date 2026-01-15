@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { UserPlus } from "lucide-react";
 import { useContext } from "react";
 import { Mycontext } from "../Mycontext";
-import api from '../../api.js'
+import api from '../../api/api.js'
 
 export const EmptyQueueState = ({ queueId }) => {
   // const queueLink = `${window.location.origin}/queue/${serviceId}`;

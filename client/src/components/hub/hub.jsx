@@ -1,7 +1,7 @@
 import { useEffect, useState,useContext } from "react";
 import { useNavigate } from "react-router";
 import { Users } from "lucide-react";
-import api from  "../../api.js";
+import api from  "../../api/api.js";
 import { Mycontext } from "../Mycontext.jsx";
 
 const Hub = () => {
