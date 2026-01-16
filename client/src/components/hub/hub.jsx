@@ -35,7 +35,7 @@ const Hub = () => {
             <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                {queue.isActiev}
+                {queue.isActive}
               </span>
               <span className="flex items-center gap-2">
                 <Users size={14} /> Live Queue

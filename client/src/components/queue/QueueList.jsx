@@ -4,14 +4,19 @@ import { useContext } from "react";
 import { UserPlus } from "lucide-react";
 import { useParams } from "react-router";
 import api from "../../api/api.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setQueue } from "../../redux/features/queueSlice.js";
 export const QueueList = () => {
   motion;
-  const { theme, queue, setQueue } = useContext(Mycontext);
+  const { theme } = useContext(Mycontext);
   let { queueId } = useParams();
+  const dispatch = useDispatch()
+  let queue = useSelector((state)=>state.queue.queue);
   const joinQueue = async () => {
     const repsonse = await api.post(`/queue/${queueId}/join`);
     console.log(repsonse.data);
-    setQueue((prev)=>[...prev,repsonse.data])
+    let updatedQueue = [...queue,repsonse.data];
+    dispatch(setQueue(updatedQueue));
   };
   return (
     <>

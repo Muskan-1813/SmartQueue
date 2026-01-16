@@ -7,17 +7,22 @@ import { QueueSkeleton } from "./QueueSkeleton.jsx";
 import { QueueList } from "./QueueList.jsx";
 import { EmptyQueueState } from "./EmptyQueueState.jsx";
 import { Mycontext } from "../Mycontext.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { setQueue} from "../../redux/features/queueSlice.js";
+
 export const Queue = () => {
   const navigate = useNavigate();
-  const { theme, queue, setQueue } = useContext(Mycontext);
+  const { theme } = useContext(Mycontext);
   motion;
+  let queue = useSelector((state) => state.queue.queue);
+  const dispatch = useDispatch();
   const { queueId } = useParams();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQueue = async () => {
       const res = await api.get(`/queue/${queueId}`);
-      setQueue(res.data);
+      dispatch(setQueue(res.data));
       console.log("res:", res.data);
       setLoading(false);
     };
@@ -68,7 +73,7 @@ export const Queue = () => {
 
       {/* Queue Body */}
       {queue.length === 0 ? (
-        <EmptyQueueState serviceId={queueId} />
+        <EmptyQueueState queueId={queueId} />
       ) : (
         <QueueList />
       )}

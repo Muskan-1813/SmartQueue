@@ -31,8 +31,8 @@ const LandingPage = () => {
   const loadHub = () => {
     navigate("/hub");
   };
-  const gotoLogin = () => {
-    navigate("/login");
+  const gotoSignup = () => {
+    navigate("/signup");
   };
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -118,27 +118,30 @@ const LandingPage = () => {
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row gap-5"
               >
-                <button
-                  onClick={createQueue}
-                  className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
-                >
-                  Create a Queue{" "}
-                  <PlusCircle
-                    size={20}
-                    className="group-hover:rotate-90 transition-transform duration-300"
-                  />
-                </button>
-                <button
-                  className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20
+                {user.role === "admin" ? (
+                  <button
+                    onClick={createQueue}
+                    className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
+                  >
+                    Create a Queue{" "}
+                    <PlusCircle
+                      size={20}
+                      className="group-hover:rotate-90 transition-transform duration-300"
+                    />
+                  </button>
+                ) : (
+                  <button
+                    className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20
                 ${
                   theme === "dark"
                     ? "border-[#1f2937] hover:bg-white/5"
                     : "border-slate-900/20 bg-blue-500/15 hover:bg-slate-50 shadow-sm"
                 }`}
-                  onClick={loadHub}
-                >
-                  Join a Queue <UserPlus size={20} />
-                </button>
+                    onClick={loadHub}
+                  >
+                    Join a Queue <UserPlus size={20} />
+                  </button>
+                )}
               </motion.div>
             )}
           </div>
@@ -453,18 +456,43 @@ const LandingPage = () => {
               Start using SmartQueue today and make queues invisible. Join the
               future of service management.
             </p>
-            {!user && (
+            {user ? (
+              user.role === "admin" ? (
+                <button
+                  onClick={createQueue}
+                  className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
+                >
+                  Create a Queue{" "}
+                  <PlusCircle
+                    size={20}
+                    className="group-hover:rotate-90 transition-transform duration-300"
+                  />
+                </button>
+              ) : (
+                <button
+                  className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20
+                ${
+                  theme === "dark"
+                    ? "border-[#1f2937] hover:bg-white/5"
+                    : "border-slate-900/20 bg-blue-500/15 hover:bg-slate-50 shadow-sm"
+                }`}
+                  onClick={loadHub}
+                >
+                  Join a Queue <UserPlus size={20} />
+                </button>
+              )
+            ) : (
               <button
-                className={`group px-12 py-6 rounded-2xl font-bold text-lg transition-all active:scale-95 flex items-center gap-3 mx-auto animate-pulse-soft
-              ${
-                theme === "dark"
-                  ? "bg-[#3b82f6] text-white hover:bg-[#2563eb]"
-                  : "bg-white text-[#2563eb] hover:bg-slate-50"
-              }`}
-                onClick={gotoLogin}
+                className={`group px-12 py-6 rounded-2xl font-bold text-lg transition-all active:scale-95 flex items-center gap-3 mx-auto animate-pulse-soft ${
+                  theme === "dark"
+                    ? "bg-[#3b82f6] text-white hover:bg-[#2563eb]"
+                    : "bg-white text-[#2563eb] hover:bg-slate-50"
+                }`}
+                onClick={gotoSignup}
               >
+                {" "}
                 Get Started Now{" "}
-                <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="group-hover:translate-x-1 transition-transform" />{" "}
               </button>
             )}
           </motion.div>

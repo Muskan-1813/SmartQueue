@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Lock, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+export const Login = () => {
   motion;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,9 +18,11 @@ function Login() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/login", formData);
+      const response = await api.post("/login", formData, {
+        withCredentials: true,
+      });
       dispatch(setUser(response.data.user));
-      navigate(-1);
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
@@ -55,7 +57,7 @@ function Login() {
               theme === "dark" ? "text-[#9ca3af]" : "text-slate-500"
             }`}
           >
-            Sign in to continue to SmartQueue
+            Log in to continue to SmartQueue
           </p>
         </div>
 
@@ -125,12 +127,15 @@ function Login() {
           className={`text-center text-xs ${
             theme === "dark" ? "text-[#9ca3af]" : "text-slate-500"
           }`}
+          onClick={() => {
+            navigate("/signup");
+          }}
         >
-          Secure access to your queues
+          <span className="hover:underline cursor-pointer">
+            new user? register here
+          </span>
         </p>
       </motion.form>
     </div>
   );
-}
-
-export default Login;
+};

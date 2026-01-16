@@ -2,16 +2,25 @@ import { motion } from "framer-motion";
 import { UserPlus } from "lucide-react";
 import { useContext } from "react";
 import { Mycontext } from "../Mycontext";
-import api from '../../api/api.js'
+import api from "../../api/api.js";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { setQueue } from "../../redux/features/queueSlice.js";
+
 
 export const EmptyQueueState = ({ queueId }) => {
   // const queueLink = `${window.location.origin}/queue/${serviceId}`;
   const { theme } = useContext(Mycontext);
+  let queue = useSelector((state)=>state.queue.queue);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   motion;
-  console.log("queueid:",queueId)
-  const joinQueue = async() => {
-    const repsonse = await api.post(`/queue/${queueId}/join`,{"userId":"695a514c7ba00714c27f5398"});
-    console.log(repsonse.data);
+  console.log("queueid:", queueId);
+  const joinQueue = async () => {
+    const response = await api.post(`/queue/${queueId}/join`);
+    dispatch(setQueue([...queue, response.data]));
+    navigate(`/queue/${queueId}`);
+    console.log(response.data);
   };
   return (
     <motion.div
@@ -27,7 +36,11 @@ export const EmptyQueueState = ({ queueId }) => {
       >
         Oops! no one is here...
       </p>
-      <p className={`text-sm ${theme==='dark'?"text-slate-300":"text-slate-900"} mb-8`}>
+      <p
+        className={`text-sm ${
+          theme === "dark" ? "text-slate-300" : "text-slate-900"
+        } mb-8`}
+      >
         Share the queue link or wait for users to join.
       </p>
 
@@ -39,17 +52,16 @@ export const EmptyQueueState = ({ queueId }) => {
         <Link2 size={16} /> Copy Queue Link
       </button> */}
       <button
-            className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20
+        className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20
                 ${
                   theme === "dark"
                     ? "border-[#111827]  text-amber-50 bg-[#1b2e58] "
                     : "border-slate-900/20 bg-blue-500/15 hover:bg-blue-500/30 shadow-sm"
                 }`}
-            onClick={joinQueue}
-          >
-            Join <UserPlus size={20} />
-          </button>
-
+        onClick={joinQueue}
+      >
+        Join <UserPlus size={20} />
+      </button>
     </motion.div>
   );
 };

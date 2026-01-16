@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 export const Navbar = () => {
   motion;
   const navigate = useNavigate();
-  const gotoLogin = () => {
-    navigate("/login");
+  const gotoSignup = () => {
+    navigate("/signup");
   };
   const user = useSelector((state) => state.user.currentUser);
   const { theme, setTheme } = useContext(Mycontext);
@@ -73,7 +73,7 @@ export const Navbar = () => {
           </button>
           {!user && (
             <button
-              onClick={gotoLogin}
+              onClick={gotoSignup}
               className="bg-[#2563eb] dark:bg-[#3b82f6] text-white px-6 py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 font-semibold shadow-md hover:shadow-blue-500/20"
             >
               Get Started
@@ -139,7 +139,7 @@ export const Navbar = () => {
                 How it Works
               </a>
               <button
-                onClick={gotoLogin}
+                onClick={gotoSignup}
                 className="bg-[#2563eb] text-white w-full py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/10"
               >
                 Get started
