@@ -1,23 +1,21 @@
 import Ticket from "../models/ticket.js";
-import Service from "../models/service.js";
+import Queue from "../models/queue.js";
 import { CustomError } from "../middlewares/CustomError.js";
 
 export const hub = async (req, res) => {
-  let hub = await Service.find();
-  console.log("services: ", hub);
+  let hub = await Queue.find();
   res.status(200).json(hub);
 };
 
-export const  createService = async (req, res) => {
+export const createQueue = async (req, res) => {
   let { name, startAt, endAt } = req.body;
-
-  let service = await Service.create({
+  console.log(req.user);
+  let queue = await Queue.create({
     name,
     startAt,
     endAt,
   });
-  await service.save();
-  res.status(201).json(service);
+  res.status(201).json(queue);
 };
 
 export const showTickets = async (req, res) => {
@@ -29,13 +27,14 @@ export const showTickets = async (req, res) => {
 
 export const joinQueue = async (req, res) => {
   let { queueId } = req.params;
-  let { userId } = req.body;
-
-  let service = await Service.findById({ _id: queueId });
-  console.log("service:", service);
-  if (!service || !service.isActive) {
+  console.log(req.user);
+  let userId = req.user.id;
+  console.log("queueId:",queueId);
+  let queue = await Queue.findById({ _id: queueId });
+  console.log("service:", queue);
+  if (!queue || !queue.isActive) {
     console.log("queue not active");
-    throw new CustomError(400,"Queue is not Active")
+    throw new CustomError(400, "Queue is not Active");
   }
 
   let alreadyJoined = await Ticket.findOne({
@@ -44,7 +43,7 @@ export const joinQueue = async (req, res) => {
   });
   console.log("alreadyJoined:", alreadyJoined);
   if (alreadyJoined) {
-    throw new CustomError(400,"already joined")
+    throw new CustomError(400, "already joined");
   }
   let length = await Ticket.countDocuments({ queueId });
   let ticket = await Ticket.create({
@@ -52,5 +51,6 @@ export const joinQueue = async (req, res) => {
     userId,
     position: length + 1,
   });
+  await ticket.save();
   res.status(201).json(ticket);
 };
