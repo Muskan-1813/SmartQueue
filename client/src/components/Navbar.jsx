@@ -4,12 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/features/themeSlice";
+import { clearUser } from "../redux/features/userSlilce";
 const Navbar = () => {
   motion;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const gotoSignup = () => {
     navigate("/signup");
+  };
+  const logout = () => {
+    dispatch(clearUser());
   };
   const user = useSelector((state) => state.user.currentUser);
   let theme = useSelector((state) => state.theme.mode);
@@ -71,13 +75,19 @@ const Navbar = () => {
           >
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          {!user && (
+          {user? <button
+              onClick={logout}
+              className="bg-[#2563eb] dark:bg-[#3b82f6] text-white px-6 py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 font-semibold shadow-md hover:shadow-blue-500/20"
+            >
+              logout
+            </button>: (
             <button
               onClick={gotoSignup}
               className="bg-[#2563eb] dark:bg-[#3b82f6] text-white px-6 py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 font-semibold shadow-md hover:shadow-blue-500/20"
             >
               Get Started
             </button>
+            
           )}
         </div>
 
@@ -128,7 +138,16 @@ const Navbar = () => {
                 : "bg-[#f8fafc] border-slate-200"
             }`}
           >
-            {!user && (
+            {user ? (
+              <div className="px-6 py-8 flex flex-col gap-5">
+                <button
+                  onClick={logout}
+                  className="bg-[#2563eb] text-white w-full py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/10"
+                >
+                  Log out
+                </button>
+              </div>
+            ) : (
               <div className="px-6 py-8 flex flex-col gap-5">
                 <button
                   onClick={gotoSignup}
