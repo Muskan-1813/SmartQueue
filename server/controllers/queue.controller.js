@@ -1,7 +1,7 @@
 import Ticket from "../models/ticket.js";
 import Queue from "../models/queue.js";
 import { CustomError } from "../middlewares/CustomError.js";
-
+import Service from "../models/queue.js";
 export const hub = async (req, res) => {
   let hub = await Queue.find();
   res.status(200).json(hub);
@@ -18,22 +18,19 @@ export const createQueue = async (req, res) => {
   res.status(201).json(queue);
 };
 
-export const showTickets = async (req, res) => {
+export const showQueue = async (req, res) => {
   let { queueId } = req.params;
-
-  let queue = await Ticket.find({ queueId });
-  res.status(200).json(queue);
+  const queue = await Service.findById({ _id:queueId });
+  const tickets = await Ticket.find({queueId});
+  res.status(200).json({info:queue,tickets:tickets});
 };
 
 export const joinQueue = async (req, res) => {
   let { queueId } = req.params;
-  console.log(req.user);
   let userId = req.userId;
-  console.log("queueId:",queueId);
   let queue = await Queue.findById({ _id: queueId });
-  console.log("service:", queue);
+  
   if (!queue || !queue.isActive) {
-    console.log("queue not active");
     throw new CustomError(400, "Queue is not Active");
   }
 

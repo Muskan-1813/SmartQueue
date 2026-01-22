@@ -3,10 +3,10 @@ const router = express.Router();
 import asyncHandler from "../middlewares/asyncHandler.js";
 import auth from "../middlewares/auth.js";
 import {
-  showTickets,
   joinQueue,
   hub,
   createQueue,
+  showQueue,
 } from "../controllers/queue.controller.js";
 import { authorizeRoles } from "../middlewares/authorizeRoles.js";
 
@@ -23,7 +23,7 @@ router.get(
   "/queue/:queueId",
   auth,
   authorizeRoles(["user", "admin"]),
-  asyncHandler(showTickets)
+  asyncHandler(showQueue)
 );
 
 router.post(
