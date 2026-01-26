@@ -5,11 +5,13 @@ import api from "../api/api.js";
 import { motion } from "framer-motion";
 import { Lock, Mail } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import Error from "../components/utils/Error.jsx";
 
 const Login = () => {
   motion;
-  const {state} = useLocation();
+  const [error, setError] = useState(null);
+  const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let theme = useSelector((state) => state.theme.mode);
@@ -21,9 +23,10 @@ const Login = () => {
         withCredentials: true,
       });
       dispatch(setUser(response.data.user));
-      navigate(state?.from?.pathname || '/', { replace: true });
+      navigate(state?.from?.pathname || "/", { replace: true });
     } catch (err) {
       console.error(err);
+      setError(err.response?.data?.message || "something is wrong");
     }
   };
   return (
@@ -58,6 +61,7 @@ const Login = () => {
             Log in to continue to SmartQueue
           </p>
         </div>
+        {error && <Error err={error} />}
 
         {/* Email */}
         <div className="space-y-2">
@@ -103,7 +107,7 @@ const Login = () => {
               value={formData.password}
               onChange={(e) =>
                 dispatch(
-                  updateInput({ name: "password", value: e.target.value })
+                  updateInput({ name: "password", value: e.target.value }),
                 )
               }
               className="w-full bg-transparent outline-none text-sm"

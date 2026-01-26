@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 import { Mail, Lock, User } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useState } from "react-redux";
 import { useNavigate } from "react-router";
 import api from "../api/api.js";
 import { updateSignup } from "../redux/features/signUpSlice.js";
 import { setUser } from "../redux/features/userSlilce";
+import Error from "../components/utils/Error.jsx";
 
 const Signup = () => {
   motion;
+  const [error, setError] = useState(null);
   let theme = useSelector((state) => state.theme.mode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const Signup = () => {
       navigate("/");
     } catch (err) {
       console.error(err);
+      setError(err.response?.data?.message || "something is wrong");
     }
   };
 
@@ -61,6 +64,7 @@ const Signup = () => {
             Start managing queues the smart way
           </p>
         </div>
+        {error && <Error err={error} />}
 
         {/* Name */}
         <div className="space-y-1.5">
@@ -81,7 +85,7 @@ const Signup = () => {
               value={formData.username}
               onChange={(e) =>
                 dispatch(
-                  updateSignup({ name: "username", value: e.target.value })
+                  updateSignup({ name: "username", value: e.target.value }),
                 )
               }
               className="w-full bg-transparent outline-none text-sm"
@@ -160,7 +164,7 @@ const Signup = () => {
               value={formData.password}
               onChange={(e) =>
                 dispatch(
-                  updateSignup({ name: "password", value: e.target.value })
+                  updateSignup({ name: "password", value: e.target.value }),
                 )
               }
               className="w-full bg-transparent outline-none text-sm"
