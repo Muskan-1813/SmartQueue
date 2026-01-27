@@ -129,11 +129,11 @@ const LandingPage = () => {
                   </button>
                 ) : (
                   <button
-                    className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20
+                    className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl 
                 ${
                   theme === "dark"
                     ? "border-[#1f2937] hover:bg-white/5"
-                    : "border-slate-900/20 bg-blue-500/15 hover:bg-slate-50 shadow-sm"
+                    : "border-slate-900/20 bg-blue-500/15 hover:bg-slate-50 "
                 }`}
                     onClick={loadHub}
                   >
@@ -204,8 +204,8 @@ const LandingPage = () => {
                         i === 0
                           ? "url(#premiumGrad)"
                           : theme === "dark"
-                          ? "#1f2937"
-                          : "#f8fafc"
+                            ? "#1f2937"
+                            : "#f8fafc"
                       }
                       animate={i === 0 ? { scale: [1, 1.05, 1] } : {}}
                       transition={{
@@ -468,7 +468,7 @@ const LandingPage = () => {
                 </button>
               ) : (
                 <button
-                  className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20
+                  className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl 
                 ${
                   theme === "dark"
                     ? "border-[#1f2937] hover:bg-white/5"

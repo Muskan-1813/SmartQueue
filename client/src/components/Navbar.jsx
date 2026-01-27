@@ -30,14 +30,14 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b backdrop-blur-xl h-17
+      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b backdrop-blur-xl h-20
         ${
           theme === "dark"
             ? "bg-[#0b0f14]/80 border-[#1f2937]"
             : "bg-white/90 border-slate-200"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 h-17 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
         <div
           className="flex items-center gap-3"
           onClick={() => {

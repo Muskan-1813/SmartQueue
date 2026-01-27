@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { Mail, Lock, User } from "lucide-react";
-import { useDispatch, useSelector, useState } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import api from "../api/api.js";
 import { updateSignup } from "../redux/features/signUpSlice.js";
 import { setUser } from "../redux/features/userSlilce";
 import Error from "../components/utils/Error.jsx";
+import { useState } from "react";
 
 const Signup = () => {
   motion;

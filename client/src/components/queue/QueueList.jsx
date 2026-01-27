@@ -4,29 +4,43 @@ import { useParams } from "react-router";
 import api from "../../api/api.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setTickets } from "../../redux/features/queueSlice.js";
+import { useState } from "react";
+import Error from "../utils/Error.jsx";
 
 const QueueList = () => {
   motion;
+  const [error, setError] = useState(null);
   const user = useSelector((state) => state.user.currentUser);
   const theme = useSelector((state) => state.theme.mode);
   const { queueId } = useParams();
   const dispatch = useDispatch();
   const { info: queue, tickets } = useSelector((state) => state.queue);
+  console.log("tickets", tickets);
+
   const joinQueue = async () => {
     try {
-      const response = await api.post(`/queue/${queueId}/join`);
+      const response = await api.post(`/queue/${queueId}`);
       const updatedQueue = [...tickets, response.data];
       dispatch(setTickets(updatedQueue));
+      setError(null);
     } catch (err) {
-      // return <Error err={err} />
       console.log(err);
+      setError(err.response?.data?.message || "Something went Wrong");
     }
+  };
+
+  const leaveQueue = async () => {
+    const res = await api.patch(`/queue/${queueId}`, { userId: user._id });
+    // const updatedQueue = tickets.remove;
+    console.log(res.data);
+    // dispatch(setTickets());
   };
 
   const isJoined = tickets.some((entry) => entry.userId === user?._id);
 
   return (
     <div className="space-y-5">
+      {error && <Error err={error} />}
       <AnimatePresence>
         {tickets.map((entry, idx) => (
           <motion.div
@@ -86,6 +100,19 @@ const QueueList = () => {
           }`}
         >
           Join queue <UserPlus size={18} />
+        </motion.button>
+      )}
+      {isJoined && (
+        <motion.button
+          onClick={leaveQueue}
+          className={`w-full mt-6 flex items-center justify-center gap-3 py-4 rounded-2xl font-semibold transition-colors
+          ${
+            theme === "dark"
+              ? "bg-[#1f2a44] text-[#e5e7eb] hover:bg-[#24304d]"
+              : "bg-blue-600/10 text-blue-700 hover:bg-blue-600/20"
+          }`}
+        >
+          leave
         </motion.button>
       )}
     </div>
