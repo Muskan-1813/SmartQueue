@@ -48,17 +48,18 @@ export const joinQueue = async (req, res) => {
     userId,
     position: length + 1,
   });
+  const allTickets = await Ticket.find({ queueId });
   await ticket.save();
-  res.status(201).json(ticket);
+  res.status(201).json(allTickets);
 };
 
 export const leaveQueue = async (req, res) => {
-  let userId = req.body;
+  let queueId = req.params.queueId;
+  let userId = req.userId;
   if (!userId) throw new CustomError(404, "UserId not found");
-  console.log("userId", userId);
-  const ticketToBeDeleted = await Ticket.findOne(userId);
+  console.log("queueId", queueId);
+  const allTickets = await Ticket.find({ queueId });
   const deleteInfo = await Ticket.findOneAndDelete(userId);
-  console.log("ticket:", ticketToBeDeleted);
-  console.log("deleteInfo:", deleteInfo);
-  res.status(201).json({ deleteInfo });
+  console.log("allticket:", allTickets);
+  res.status(201).json(allTickets);
 };
