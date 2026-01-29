@@ -3,8 +3,8 @@ import { Users, Sun, Moon, Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from "../redux/features/themeSlice";
-import { clearUser } from "../redux/features/userSlilce";
+import { toggleTheme } from "../../redux/features/themeSlice";
+import { clearUser } from "../../redux/features/userSlilce";
 const Navbar = () => {
   motion;
   const navigate = useNavigate();

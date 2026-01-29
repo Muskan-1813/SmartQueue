@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import api from "../api/api.js";
+import api from "../../api/api.js";
 import { useDispatch, useSelector } from "react-redux";
-import { updateInput } from "../redux/features/createQueueSlice.js";
-import { setUser, clearUser } from "../redux/features/userSlilce.js";
+import { updateInput } from "../../redux/features/createQueueSlice.js";
+import { setUser, clearUser } from "../../redux/features/userSlilce.js";
 
 export const CreateQueue = () => {
   motion;

@@ -1,9 +1,9 @@
 import LandingPage from "./pages/LandingPage.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
+import Navbar from "./components/utils/Navbar.jsx";
+import Footer from "./components/utils/Footer.jsx";
 import Queue from "./components/queue/Queue.jsx";
-import CreateQueue from "./components/CreateQueue.jsx";
+import CreateQueue from "./components/queue/CreateQueue.jsx";
 import Hub from "./components/hub/hub.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "./redux/features/userSlilce.js";
 import ProtectedRoute from "./components/utils/ProtectedRoute.jsx";
+import CreateOrg from "./components/org/CreateOrg.jsx";
+import AllOrgs from "./components/org/AllOrgs.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -66,6 +68,8 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/org" element={<CreateOrg />} />
+            <Route path="/org/orgs" element={<AllOrgs />} />
           </Routes>
         </AnimatePresence>
 

@@ -23,8 +23,8 @@ const LandingPage = () => {
   let theme = useSelector((state) => state.theme.mode);
 
   const navigate = useNavigate();
-  const createQueue = () => {
-    navigate("/queue");
+  const createOrg = () => {
+    navigate("/org");
   };
   const loadHub = () => {
     navigate("/hub");
@@ -118,10 +118,10 @@ const LandingPage = () => {
               >
                 {user.role === "admin" ? (
                   <button
-                    onClick={createQueue}
+                    onClick={createOrg}
                     className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
                   >
-                    Create a Queue{" "}
+                    Create Queues
                     <PlusCircle
                       size={20}
                       className="group-hover:rotate-90 transition-transform duration-300"
@@ -457,18 +457,19 @@ const LandingPage = () => {
             {user ? (
               user.role === "admin" ? (
                 <button
-                  onClick={createQueue}
-                  className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
+                  className={`group px-12 py-6 rounded-2xl font-bold text-lg transition-all active:scale-95 flex items-center gap-3 mx-auto animate-pulse-soft ${
+                    theme === "dark"
+                      ? "bg-[#3b82f6] text-white hover:bg-[#2563eb]"
+                      : "bg-white text-[#2563eb] hover:bg-slate-50"
+                  }`}
+                  onClick={createOrg}
                 >
-                  Create a Queue{" "}
-                  <PlusCircle
-                    size={20}
-                    className="group-hover:rotate-90 transition-transform duration-300"
-                  />
+                  Create Queues
+                  <ChevronRight className="group-hover:translate-x-1 transition-transform" />{" "}
                 </button>
               ) : (
                 <button
-                  className={`flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold border transition-all hover:scale-105 active:scale-95 shadow-xl 
+                  className={`group px-12 py-6 rounded-2xl font-bold text-lg transition-all active:scale-95 flex items-center gap-3 mx-auto animate-pulse-soft 
                 ${
                   theme === "dark"
                     ? "border-[#1f2937] hover:bg-white/5"
