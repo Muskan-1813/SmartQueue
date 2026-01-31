@@ -20,7 +20,7 @@ function CreateOrg() {
     try {
       const res = await api.post(`/org`, formData);
       console.log(res.data);
-      navigate("/org/orgs");
+      navigate("/org/me");
     } catch (err) {
       console.log(err);
       setError(err.response?.data?.message || "Failed Creating Organisation");
@@ -29,6 +29,19 @@ function CreateOrg() {
 
   return (
     <div className="m-30">
+      <div className="max-w-5xl mx-auto mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className={`flex items-center gap-2 text-sm font-semibold transition-opacity
+          ${
+            theme === "dark"
+              ? "text-[#9ca3af] hover:text-white"
+              : "text-slate-500 hover:text-slate-900"
+          }`}
+        >
+          <ArrowLeft size={16} /> Back
+        </button>
+      </div>
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 30 }}

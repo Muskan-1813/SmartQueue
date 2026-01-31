@@ -9,7 +9,6 @@ import { setUser, clearUser } from "../../redux/features/userSlilce.js";
 export const CreateQueue = () => {
   motion;
   const dispatch = useDispatch();
-
   useEffect(() => {
     const bootstrapAuth = async () => {
       try {

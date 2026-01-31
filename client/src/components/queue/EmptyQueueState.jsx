@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { UserPlus } from "lucide-react";
 import { useSelector } from "react-redux";
+import { QRCodeCanvas } from "qrcode.react";
 
 const EmptyQueueState = ({ joinQueue }) => {
   motion;
@@ -35,6 +36,32 @@ const EmptyQueueState = ({ joinQueue }) => {
         This queue is ready. Share the link or be the first to join and get
         things started.
       </p>
+      {queue.isActive && (
+        <div className="flex justify-center mt-6">
+          <div
+            className={`rounded-3xl p-6 border shadow-lg
+      ${
+        theme === "dark"
+          ? "bg-[#111827] border-[#1f2937]"
+          : "bg-white border-slate-200"
+      }`}
+          >
+            <QRCodeCanvas
+              value={window.location.href}
+              size={160}
+              bgColor={theme === "dark" ? "#0b0f14" : "#ffffff"}
+              fgColor={theme === "dark" ? "#e5e7eb" : "#0f172a"}
+              level="M"
+            />
+            <p
+              className={`mt-4 text-center text-sm
+        ${theme === "dark" ? "text-[#9ca3af]" : "text-slate-500"}`}
+            >
+              Scan to join this queue
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Action */}
       {queue.isActive && (

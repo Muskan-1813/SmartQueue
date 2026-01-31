@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UserPlus } from "lucide-react";
 import { useSelector } from "react-redux";
 import Error from "../utils/Error.jsx";
+import { QRCodeCanvas } from "qrcode.react";
 
 const QueueList = ({ joinQueue, leaveQueue, error, isJoined }) => {
   motion;
@@ -11,10 +12,22 @@ const QueueList = ({ joinQueue, leaveQueue, error, isJoined }) => {
   const { info: queue, tickets } = useSelector((state) => state.queue);
   console.log("tickets", tickets);
 
+  const queueUrl = window.location.href;
   return (
     <div className="space-y-5">
       {error && <Error err={error} />}
       <AnimatePresence>
+        {queue.isActive && (
+          <div className="flex justify-center mb-5">
+            <QRCodeCanvas
+              value={queueUrl}
+              size={160}
+              bgColor={theme === "dark" ? "#0b0f14" : "#ffffff"}
+              fgColor={theme === "dark" ? "#e5e7eb" : "#0f172a"}
+              level="M"
+            />
+          </div>
+        )}
         {tickets.map((entry, idx) => (
           <motion.div
             key={entry._id}
@@ -60,6 +73,7 @@ const QueueList = ({ joinQueue, leaveQueue, error, isJoined }) => {
       </AnimatePresence>
 
       {/* Join button */}
+
       {!isJoined && queue.isActive && (
         <motion.button
           whileHover={{ y: -1 }}

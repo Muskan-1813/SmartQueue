@@ -23,8 +23,8 @@ const LandingPage = () => {
   let theme = useSelector((state) => state.theme.mode);
 
   const navigate = useNavigate();
-  const createOrg = () => {
-    navigate("/org");
+  const gotoDashboard = () => {
+    navigate("/org/me");
   };
   const loadHub = () => {
     navigate("/hub");
@@ -118,7 +118,7 @@ const LandingPage = () => {
               >
                 {user.role === "admin" ? (
                   <button
-                    onClick={createOrg}
+                    onClick={gotoDashboard}
                     className="group flex items-center justify-center gap-3 bg-[#2563eb] dark:bg-[#3b82f6] text-white px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/20"
                   >
                     Create Queues
@@ -462,7 +462,7 @@ const LandingPage = () => {
                       ? "bg-[#3b82f6] text-white hover:bg-[#2563eb]"
                       : "bg-white text-[#2563eb] hover:bg-slate-50"
                   }`}
-                  onClick={createOrg}
+                  onClick={gotoDashboard}
                 >
                   Create Queues
                   <ChevronRight className="group-hover:translate-x-1 transition-transform" />{" "}

@@ -15,7 +15,8 @@ import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "./redux/features/userSlilce.js";
 import ProtectedRoute from "./components/utils/ProtectedRoute.jsx";
 import CreateOrg from "./components/org/CreateOrg.jsx";
-import AllOrgs from "./components/org/AllOrgs.jsx";
+import Dashboard from "./components/org/Dashboard.jsx";
+import OrganisationQueues from "./components/org/OrganisationQueues.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -51,7 +52,7 @@ function App() {
             />
             <Route path="/" element={<LandingPage />} />
             <Route
-              path="queue"
+              path="/queue"
               element={
                 <ProtectedRoute>
                   <CreateQueue />
@@ -66,10 +67,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="org/me" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/org" element={<CreateOrg />} />
-            <Route path="/org/orgs" element={<AllOrgs />} />
+            <Route path="/org/create" element={<CreateOrg />} />
+            <Route path="/org/me/Queues" element={<OrganisationQueues />} />
           </Routes>
         </AnimatePresence>
 

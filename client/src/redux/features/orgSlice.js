@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const orgSlice = createSlice({
-  name: "orgs",
+  name: "org",
   initialState: {
-    orgs: [],
+    org: null,
   },
   reducers: {
     setOrgs: (state, action) => {
