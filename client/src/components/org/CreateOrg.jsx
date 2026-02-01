@@ -1,35 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import api from "../../api/api.js";
 import Error from "../utils/Error.jsx";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Building2 } from "lucide-react";
 
-function CreateOrg() {
-  const theme = useSelector((s) => s.theme.mode);
-
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-  });
-  const [error, setError] = useState(null);
+const CreateOrg = () => {
   motion;
+  const theme = useSelector((s) => s.theme.mode);
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name.trim()) return;
+
     try {
-      const res = await api.post(`/org`, formData);
-      console.log(res.data);
+      setLoading(true);
+      await api.post("/org", { name });
       navigate("/org/me");
     } catch (err) {
-      console.log(err);
-      setError(err.response?.data?.message || "Failed Creating Organisation");
+      setError(err.response?.data?.message || "Failed creating organisation");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="m-30">
-      <div className="max-w-5xl mx-auto mb-6">
+    <div
+      className={`min-h-screen flex items-center justify-center px-6 ${
+        theme === "dark" ? "bg-[#0b0f14]" : "bg-slate-50"
+      }`}
+    >
+      {/* Back */}
+      <div className="absolute top-24 left-6 md:left-12">
         <button
           onClick={() => navigate(-1)}
           className={`flex items-center gap-2 text-sm font-semibold transition-opacity
@@ -42,40 +50,86 @@ function CreateOrg() {
           <ArrowLeft size={16} /> Back
         </button>
       </div>
-      <motion.form
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 30 }}
+
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.21, 0.45, 0.32, 0.9] }}
-        className={`w-full max-w-md rounded-4xl p-10 mt-15 space-y-8 border
-    ${
-      theme === "dark"
-        ? "bg-[#111827] border-[#1f2937]"
-        : "bg-white border-slate-200 shadow-2xl"
-    }`}
-      >
-        {error && <Error err={error} />}
-        <input
-          className={`w-full h-12 rounded-xl px-4 text-sm border outline-none transition-colors
+        transition={{ duration: 0.45, ease: [0.21, 0.45, 0.32, 0.9] }}
+        className={`relative w-full max-w-xl rounded-[2.75rem] p-14 border overflow-hidden
         ${
           theme === "dark"
-            ? "bg-[#0b0f14] border-[#1f2937] focus:border-blue-500"
-            : "bg-slate-50 border-slate-200 focus:border-blue-500"
+            ? "bg-linear-to-b from-[#111827] to-[#0b0f14] border-[#1f2937]"
+            : "bg-white border-slate-200 shadow-2xl shadow-slate-300/40"
         }`}
-          type="text"
-          placeholder="Organisation Name"
-          onChange={(e) => setFormData({ name: e.target.value })}
-        />
-        <button
-          type="submit"
-          className="w-full h-12 rounded-xl font-bold text-sm transition-all active:scale-95
-      bg-[#2563eb] hover:bg-[#1d4ed8] text-white shadow-lg shadow-blue-500/20"
+      >
+        {/* Ambient glow */}
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-[90px]" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-[90px]" />
+
+        {/* Icon */}
+        <div
+          className={`relative mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-3xl shadow-xl
+          ${
+            theme === "dark"
+              ? "bg-blue-500/10 text-blue-400 shadow-blue-500/20"
+              : "bg-blue-500/10 text-blue-600 shadow-blue-500/30"
+          }`}
         >
-          Create Organisation
-        </button>
-      </motion.form>
+          <Building2 size={32} />
+        </div>
+
+        {/* Title */}
+        <h1 className="text-3xl font-black tracking-tight text-center mb-4">
+          Create your organisation
+        </h1>
+
+        {/* Description */}
+        <p
+          className={`text-base leading-relaxed text-center max-w-md mx-auto mb-10
+          ${theme === "dark" ? "text-[#9ca3af]" : "text-slate-600"}`}
+        >
+          An organisation is required to create and manage queues. You can only
+          create one — choose the name carefully.
+        </p>
+
+        {/* Error */}
+        {error && (
+          <div className="mb-6">
+            <Error err={error} />
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Organisation name"
+            className={`w-full h-14 rounded-2xl px-5 text-sm border outline-none transition-all
+            ${
+              theme === "dark"
+                ? "bg-[#0b0f14] border-[#1f2937] text-[#e5e7eb] focus:border-blue-500"
+                : "bg-slate-50 border-slate-200 focus:border-blue-500"
+            }`}
+          />
+
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className={`w-full h-14 rounded-2xl font-bold text-sm text-white transition-all
+            bg-[#2563eb] hover:bg-[#1d4ed8]
+            shadow-xl shadow-blue-500/30
+            disabled:opacity-60 disabled:cursor-not-allowed`}
+          >
+            {loading ? "Creating…" : "Create organisation"}
+          </motion.button>
+        </form>
+      </motion.div>
     </div>
   );
-}
+};
 
 export default CreateOrg;

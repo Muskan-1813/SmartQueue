@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { PlusCircle } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { ArrowLeft } from "lucide-react";
 
 const OrganisationQueuesEmptyState = () => {
   const theme = useSelector((state) => state.theme.mode);
@@ -9,30 +10,17 @@ const OrganisationQueuesEmptyState = () => {
   motion;
   return (
     <div
-      className={`flex items-center justify-center min-h-screen px-6 ${
+      className={`flex items-center justify-center rounded-4xl min-h-screen px-6 ${
         theme === "dark"
-          ? "bg-[#111827] border-[#1f2937] hover:border-blue-500/40 hover:shadow-blue-500/10"
+          ? "bg-[#111827] border-[#1f2937] hover:border-amber-300 hover:shadow-blue-500/10"
           : "bg-white border-slate-200 hover:shadow-slate-300/40"
       }  `}
     >
-      <div className="max-w-5xl mx-auto mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className={`flex items-center gap-2 text-sm font-semibold transition-opacity
-          ${
-            theme === "dark"
-              ? "text-[#9ca3af] hover:text-white"
-              : "text-slate-500 hover:text-slate-900"
-          }`}
-        >
-          <ArrowLeft size={16} /> Back
-        </button>
-      </div>
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.21, 0.45, 0.32, 0.9] }}
-        className={`relative max-w-xl w-full rounded-[2.5rem] p-16 text-center border overflow-hidden
+        className={`relative max-w-xl w-full rounded-4xl p-16 text-center border overflow-hidden
         ${
           theme === "dark"
             ? "bg-linear-to-b from-[#111827] to-[#0b0f14] border-[#1f2937]"
